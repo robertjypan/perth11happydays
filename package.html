@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>西澳伯斯 11 日｜行李打包清單</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700;900&family=Noto+Sans+TC:wght@400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sand:#e9dcc4; --sand-deep:#d4c19c; --terra:#c0603a; --terra-deep:#9c4324;
+    --ocean:#2d6b7a; --ocean-deep:#1c4651; --pink:#d98ca0; --ink:#332518;
+    --paper:#faf4e8; --gold:#caa05a; --line:rgba(51,37,24,.14); --green:#5a8a4a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Noto Sans TC',sans-serif;color:var(--ink);background:var(--paper);
+    background-image:radial-gradient(circle at 15% 8%,rgba(202,160,90,.10),transparent 40%),
+      radial-gradient(circle at 85% 92%,rgba(45,107,122,.08),transparent 45%);
+    line-height:1.7;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:920px;margin:0 auto;padding:0 20px}
+
+  header{padding:48px 0 26px;text-align:center;position:relative;overflow:hidden;
+    background:linear-gradient(160deg,var(--ocean),var(--ocean-deep));color:var(--paper)}
+  header::after{content:"";position:absolute;inset:0;
+    background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.03) 0 2px,transparent 2px 14px)}
+  header .kicker{font-family:'Fraunces',serif;font-style:italic;letter-spacing:.18em;
+    text-transform:uppercase;font-size:.76rem;opacity:.85;position:relative}
+  header h1{font-family:'Noto Serif TC',serif;font-weight:900;font-size:clamp(1.9rem,5.5vw,3rem);
+    line-height:1.1;margin:8px 0 6px;position:relative}
+  header .sub{font-family:'Fraunces',serif;font-size:1rem;opacity:.92;position:relative}
+  header .meta{margin-top:16px;display:flex;gap:9px;justify-content:center;flex-wrap:wrap;position:relative}
+  header .meta span{background:rgba(255,255,255,.16);padding:5px 13px;border-radius:30px;
+    font-size:.8rem;font-weight:500}
+
+  /* progress */
+  .progwrap{position:sticky;top:0;z-index:40;background:var(--sand);
+    border-bottom:1px solid var(--line);box-shadow:0 3px 14px rgba(51,37,24,.06)}
+  .progwrap .inner{display:flex;align-items:center;gap:14px;padding:11px 0}
+  .progbar{flex:1;height:9px;background:rgba(0,0,0,.08);border-radius:10px;overflow:hidden}
+  .progfill{height:100%;width:0;background:linear-gradient(90deg,var(--terra),var(--gold));
+    border-radius:10px;transition:width .4s ease}
+  .progtxt{font-family:'Fraunces',serif;font-weight:600;font-size:.86rem;color:var(--ink);white-space:nowrap}
+  .resetbtn{border:none;background:transparent;color:var(--terra-deep);font-family:'Noto Sans TC';
+    font-size:.78rem;font-weight:600;cursor:pointer;text-decoration:underline;white-space:nowrap}
+
+  .intro{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 22px;margin:26px 0;
+    box-shadow:0 8px 22px rgba(51,37,24,.06)}
+  .intro h2{font-family:'Noto Serif TC',serif;font-size:1.15rem;color:var(--terra-deep);margin-bottom:6px}
+  .intro p{font-size:.92rem;color:#5c4a36}
+  .intro .facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .intro .facts span{background:var(--sand);font-size:.78rem;font-weight:600;padding:4px 11px;border-radius:20px}
+
+  section.cat{margin:30px 0}
+  .cathead{display:flex;align-items:center;gap:12px;border-bottom:3px solid var(--ink);
+    padding-bottom:10px;margin-bottom:4px}
+  .cathead .ic{font-size:1.7rem}
+  .cathead h2{font-family:'Noto Serif TC',serif;font-weight:900;font-size:1.4rem;flex:1}
+  .cathead .count{font-family:'Fraunces',serif;font-size:.82rem;color:var(--ocean);font-weight:600}
+  .catnote{font-size:.86rem;color:#7a6648;font-style:italic;margin:8px 0 14px;
+    padding-left:12px;border-left:3px solid var(--sand-deep)}
+
+  .priority{background:linear-gradient(135deg,#fff6e9,#fbe6cf);border-left:4px solid var(--terra);
+    border-radius:0 12px 12px 0;padding:4px 0;margin-bottom:16px}
+  .priority .plabel{font-family:'Noto Serif TC',serif;font-weight:700;color:var(--terra-deep);
+    font-size:.92rem;padding:8px 16px 2px}
+
+  ul.items{list-style:none;padding:6px 0}
+  li.item{display:flex;align-items:flex-start;gap:11px;padding:9px 14px;border-radius:10px;
+    cursor:pointer;transition:background .15s;border-bottom:1px dotted var(--line)}
+  li.item:last-child{border-bottom:none}
+  li.item:hover{background:rgba(255,255,255,.6)}
+  .box{flex-shrink:0;width:21px;height:21px;border:2px solid var(--sand-deep);border-radius:6px;
+    margin-top:2px;display:flex;align-items:center;justify-content:center;transition:.18s;background:#fff}
+  .box svg{width:13px;height:13px;opacity:0;transform:scale(.5);transition:.18s}
+  li.item.done .box{background:var(--green);border-color:var(--green)}
+  li.item.done .box svg{opacity:1;transform:scale(1)}
+  li.item.done .txt{opacity:.5;text-decoration:line-through}
+  .txt{flex:1}
+  .txt .name{font-size:.96rem;font-weight:500}
+  .txt .name b{color:var(--terra-deep)}
+  .txt .qty{display:inline-block;background:var(--ocean);color:#fff;font-size:.72rem;font-weight:600;
+    padding:1px 9px;border-radius:20px;margin-left:7px;font-family:'Fraunces',serif}
+  .txt .hint{display:block;font-size:.8rem;color:#8a7558;margin-top:1px}
+  .star{color:var(--terra);font-size:.8rem;margin-left:4px}
+
+  .calc{background:var(--ocean-deep);color:#eaf2f8;border-radius:16px;padding:22px 24px;margin:28px 0;
+    box-shadow:0 10px 26px rgba(28,70,81,.22)}
+  .calc h3{font-family:'Noto Serif TC',serif;font-size:1.2rem;margin-bottom:6px}
+  .calc p{font-size:.88rem;opacity:.9;margin-bottom:14px}
+  .calc table{width:100%;border-collapse:collapse;font-size:.88rem}
+  .calc th,.calc td{text-align:left;padding:7px 8px;border-bottom:1px solid rgba(255,255,255,.14)}
+  .calc th{font-family:'Fraunces',serif;font-weight:600;opacity:.85;font-size:.82rem}
+  .calc td:first-child{font-weight:600}
+  .calc .num{font-family:'Fraunces',serif;color:#ffd9a8;font-weight:600}
+  .calc .foot{font-size:.8rem;opacity:.8;margin-top:12px;line-height:1.6}
+
+  footer{background:var(--ink);color:var(--sand);text-align:center;padding:28px 20px;margin-top:36px;
+    font-size:.82rem;font-family:'Fraunces',serif;font-style:italic}
+
+  @media(max-width:560px){
+    .cathead h2{font-size:1.15rem}
+    .calc{padding:18px 16px}
+    .calc th:nth-child(3),.calc td:nth-child(3){display:none}
+  }
+  @media print{
+    .progwrap,.resetbtn,footer{display:none}
+    li.item{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="kicker">Western Australia · Packing Checklist</div>
+    <h1>西澳伯斯 11 日 · 打包清單</h1>
+    <div class="sub">Winter Self-Drive · 6 人家庭 · 含兒童 · 可洗衣</div>
+    <div class="meta">
+      <span>📅 6/18–6/28（11 天）</span>
+      <span>❄️ 南半球冬季 8–19°C</span>
+      <span>🚗 自駕</span>
+      <span>🧺 大本營可洗衣</span>
+    </div>
+  </div>
+</header>
+
+<div class="progwrap"><div class="wrap"><div class="inner">
+  <span class="progtxt" id="ptxt">0 / 0</span>
+  <div class="progbar"><div class="progfill" id="pfill"></div></div>
+  <button class="resetbtn" id="reset">清除勾選</button>
+</div></div></div>
+
+<main class="wrap">
+
+  <div class="intro">
+    <h2>打包邏輯：洗衣讓你帶得更輕</h2>
+    <p>大本營（Bedford 度假屋）連住 6 晚有洗衣機，所以衣物<b>不必帶滿 11 天份</b>，抓 <b>5–6 天輪替 + 中途洗一次</b>即可。重點放在 <b>冬季保暖洋蔥式穿搭</b>、<b>自駕證件</b>、以及<b>國家公園無補給</b>的應變。下方數量已依 6 人（含兒童）抓好，打勾即可追蹤進度，紀錄會自動存在這台裝置的瀏覽器裡。</p>
+    <div class="facts">
+      <span>勾選自動儲存</span><span>可列印（Ctrl/⌘+P）</span><span>★ = 最關鍵</span>
+    </div>
+  </div>
+
+  <!-- 證件 -->
+  <section class="cat" data-cat="docs">
+    <div class="cathead"><span class="ic">🛂</span><h2>證件・自駕文件</h2><span class="count" id="c-docs"></span></div>
+    <div class="catnote">自駕在西澳被攔查時，必須能同時出示「台灣正本駕照 + 國際駕照 IDP」，缺一不可。建議全部證件正本隨身、另存電子檔與影本分開放。</div>
+    <div class="priority"><div class="plabel">★ 出發前務必辦妥</div>
+    <ul class="items">
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name"><b>護照</b>正本<span class="star">★</span><span class="qty">每人 1</span></span><span class="hint">效期需距回程 6 個月以上，6 人份逐一檢查</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name"><b>國際駕照 IDP</b><span class="star">★</span><span class="qty">每位駕駛</span></span><span class="hint">監理站可當場辦；澳洲規定須與台灣駕照正本一起使用</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name"><b>台灣駕照</b>正本<span class="star">★</span><span class="qty">每位駕駛</span></span><span class="hint">IDP 只是翻譯本，正本必須一起帶</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">澳洲電子簽證（ETA / 簽證）確認<span class="star">★</span></span><span class="hint">確認 6 人皆已核發、護照號碼一致</span></span></li>
+    </ul></div>
+    <ul class="items">
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">租車預訂確認單<span class="qty">1 份</span></span><span class="hint">列印 + 手機存檔，含取/還車地點時間、車型</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">主駕駛人的<b>信用卡</b>（租車押金用）<span class="star">★</span></span><span class="hint">須與租車人同名，建議 Visa/Master 額度充足</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">機票 / 訂房 / Airbnb 確認信<span class="qty">全程</span></span><span class="hint">CX 航班、各晚住宿、Rottnest 渡輪票電子檔</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">旅遊保險保單 + 緊急聯絡電話<span class="star">★</span></span><span class="hint">含自駕與醫療；記下保險公司 24h 專線</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">證件影本 + 護照備用照片<span class="qty">各 2 份</span></span><span class="hint">與正本分開收；遺失補辦用</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">兒童證件 / 出生證明（如需）</span><span class="hint">未成年同行，部分情況海關會查親屬關係</span></span></li>
+    </ul>
+  </section>
+
+  <!-- 衣物 -->
+  <section class="cat" data-cat="cloth">
+    <div class="cathead"><span class="ic">🧥</span><h2>衣物（已抓洗衣輪替量）</h2><span class="count" id="c-cloth"></span></div>
+    <div class="catnote">冬季日間 15–19°C、清晨與沙漠夜晚可低到 7–8°C，採洋蔥式穿搭。以下為「每人」數量，已假設中途在 Bedford 洗一次衣，無須帶滿 11 天。</div>
+    <ul class="items">
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">上衣 / T恤・長袖<span class="qty">6 件</span></span><span class="hint">以可疊穿的長袖為主，洗一次可撐 11 天</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">保暖中層（毛衣 / 刷毛 / 帽T）<span class="qty">2–3 件</span></span><span class="hint">洋蔥式關鍵層，早晚溫差大</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name"><b>防風防水外套</b>（厚）<span class="star">★</span><span class="qty">1 件</span></span><span class="hint">沙漠夜、海岸風、可能陣雨都靠它；可帶薄羽絨內搭</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">長褲（牛仔 / 機能）<span class="qty">3–4 件</span></span><span class="hint">耐穿好搭，沾沙好清理為佳</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">內衣褲<span class="qty">6–7 套</span></span><span class="hint">洗一次足夠；兒童可多帶 2 套備用</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">襪子<span class="qty">6–7 雙</span></span><span class="hint">含厚襪 1–2 雙保暖</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">睡衣 / 居家服<span class="qty">2 套</span></span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">圍巾 / 毛帽 / 手套<span class="qty">各 1</span></span><span class="hint">清晨看鵜鶘、沙漠星空、海岸都用得到</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">泳衣 / 速乾衣<span class="qty">1 套</span></span><span class="hint">Rottnest 浮潛、海灘戲水（冬天水冷，看個人）</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name"><b>好走的鞋</b>（健行 / 運動）<span class="star">★</span><span class="qty">1 雙</span></span><span class="hint">卡巴里峽谷、天空步道、環島走很多路</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">涼鞋 / 拖鞋<span class="qty">1 雙</span></span><span class="hint">沙灘、室內、淋浴用</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">兒童額外衣物<span class="qty">+2–3 套</span></span><span class="hint">小孩易弄髒/弄濕，玩沙玩水後要換</span></span></li>
+    </ul>
+  </section>
+
+  <!-- 洗衣 -->
+  <section class="cat" data-cat="laundry">
+    <div class="cathead"><span class="ic">🧺</span><h2>洗衣相關</h2><span class="count" id="c-laundry"></span></div>
+    <div class="catnote">大本營有洗衣機，建議第 7–8 天（在伯斯期間）洗一次。投幣洗衣店在當地也很普遍。</div>
+    <ul class="items">
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">洗衣膠囊 / 旅行裝洗衣精<span class="qty">數顆</span></span><span class="hint">帶幾顆即可，當地超市也買得到</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">曬衣繩 / 摺疊衣架<span class="qty">1 組</span></span><span class="hint">冬天不一定有烘乾，晾乾備用</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">髒衣袋 / 大夾鏈袋<span class="qty">2–3 個</span></span><span class="hint">分裝髒衣、濕泳衣、沾沙衣物</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">零錢（投幣洗衣 / 烘乾備用）</span><span class="hint">澳幣硬幣，自助洗衣店常用</span></span></li>
+    </ul>
+  </section>
+
+  <!-- 自駕 -->
+  <section class="cat" data-cat="drive">
+    <div class="cathead"><span class="ic">🚗</span><h2>自駕用品</h2><span class="count" id="c-drive"></span></div>
+    <div class="catnote">西澳路途長、鄉間訊號弱、黃昏有袋鼠出沒。安全與導航是重點；兒童安全座椅是法律規定。</div>
+    <div class="priority"><div class="plabel">★ 法規與安全（不可省）</div>
+    <ul class="items">
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name"><b>兒童安全座椅 / 增高墊</b><span class="star">★</span></span><span class="hint">西澳法律：7 歲以下強制；建議租車時一併預訂，或自備合規座椅。確認數量符合兒童人數</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">手機車架 + 車充<span class="star">★</span><span class="qty">1–2 組</span></span><span class="hint">導航與長途充電必備</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name"><b>離線地圖</b>下載（Google Maps）<span class="star">★</span></span><span class="hint">卡巴里國家公園訊號極弱，行前先下載整區</span></span></li>
+    </ul></div>
+    <ul class="items">
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">當地 SIM / eSIM / 漫遊<span class="qty">每人或共用</span></span><span class="hint">Telstra 收訊最廣；至少 1–2 人有網路</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">行車記錄器（如租車未附）</span><span class="hint">事故舉證用，視租車公司而定</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">保溫水壺 / 大水瓶<span class="qty">每人 1</span></span><span class="hint">國家公園與 Rottnest 無補給，車上常備水</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">車上零食 / 乾糧</span><span class="hint">長途與沙漠路段補充能量</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">墨鏡<span class="qty">每人 1</span></span><span class="hint">西曬刺眼、沙丘反光、行車安全</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">垃圾袋 / 濕紙巾（車內）</span><span class="hint">保持車內整潔，沾沙好清理</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">記下租車公司 24h 道路救援電話</span><span class="hint">拋錨、爆胎時聯絡</span></span></li>
+    </ul>
+  </section>
+
+  <!-- 防曬防沙 -->
+  <section class="cat" data-cat="sun">
+    <div class="cathead"><span class="ic">🧴</span><h2>防曬・防風沙</h2><span class="count" id="c-sun"></span></div>
+    <div class="catnote">澳洲紫外線冬天依然強；蘭斯林沙丘與尖峰石鎮風大時細沙漫天，需保護眼睛與 3C。</div>
+    <ul class="items">
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name"><b>高係數防曬乳</b> SPF50+<span class="star">★</span></span><span class="hint">澳洲日照強，臉與手必擦</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">帽子（遮陽 / 防風）<span class="qty">每人 1</span></span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">護目鏡 / 魔術頭巾<span class="star">★</span></span><span class="hint">滑沙與石鎮擋風沙；保護眼口鼻</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">護唇膏 / 乳液<span class="qty">數支</span></span><span class="hint">冬季乾冷易乾裂</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">相機 / 鏡頭防塵套<span class="hint">沙丘換鏡頭格外小心，細沙無孔不入</span></span></span></li>
+    </ul>
+  </section>
+
+  <!-- 藥品健康 -->
+  <section class="cat" data-cat="health">
+    <div class="cathead"><span class="ic">💊</span><h2>藥品・健康</h2><span class="count" id="c-health"></span></div>
+    <div class="catnote">澳洲藥局買藥需英文且部分需處方，常用藥從台灣帶齊最省事。含兒童劑型要先備好。</div>
+    <ul class="items">
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">個人慢性病處方藥<span class="star">★</span><span class="qty">足量+備份</span></span><span class="hint">帶足全程並多備幾天；隨身行李攜帶</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">感冒 / 退燒 / 止痛藥<span class="hint">成人與兒童劑型分開準備</span></span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name"><b>暈車藥</b><span class="star">★</span></span><span class="hint">長途自駕 + Rottnest 渡輪，兒童尤其需要</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">腸胃藥 / 止瀉 / 整腸<span class="hint">換食物水土不服備用</span></span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">OK繃 / 簡易急救包 / 消毒<span class="hint">健行擦傷、玩沙小傷口</span></span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">過敏藥 / 防蚊液<span class="hint">戶外活動多</span></span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">藥品英文清單 / 成分說明</span><span class="hint">入境申報與就醫溝通用</span></span></li>
+    </ul>
+  </section>
+
+  <!-- 電子 -->
+  <section class="cat" data-cat="tech">
+    <div class="cathead"><span class="ic">🔌</span><h2>電子・3C</h2><span class="count" id="c-tech"></span></div>
+    <div class="catnote">澳洲使用 <b>Type I 三腳扁插、230V</b>，與台灣不同，務必帶轉接頭。</div>
+    <ul class="items">
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name"><b>澳洲轉接頭</b>（Type I）<span class="star">★</span><span class="qty">2–3 個</span></span><span class="hint">八字三腳扁插；多帶幾個分房充電</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">延長線 / 多孔 USB 充電器<span class="qty">1–2 個</span></span><span class="hint">一個轉接頭即可同時充多裝置</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">行動電源<span class="qty">每 1–2 人 1 個</span></span><span class="hint">須隨身（不可托運）</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">各裝置充電線<span class="hint">手機、相機、平板，逐一清點</span></span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">相機 / GoPro / 記憶卡 / 備用電池<span class="hint">粉紅湖空拍、Quokka 自拍</span></span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">耳機 / 兒童平板（車上娛樂）<span class="hint">長途安撫小孩</span></span></span></li>
+    </ul>
+  </section>
+
+  <!-- 盥洗日用 -->
+  <section class="cat" data-cat="toilet">
+    <div class="cathead"><span class="ic">🧼</span><h2>盥洗・日用</h2><span class="count" id="c-toilet"></span></div>
+    <div class="catnote">Airbnb/旅館備品不一，基本盥洗自備較安心；當地超市（Woolworths/Coles Inglewood）可隨時補。</div>
+    <ul class="items">
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">牙刷 / 牙膏<span class="qty">每人</span></span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">洗髮 / 沐浴 / 護髮（旅行瓶）<span class="hint">部分住宿不提供</span></span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">毛巾 / 快乾巾<span class="qty">1–2 條</span></span><span class="hint">露營地/部分住宿不附；浮潛後擦乾</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">保養品 / 卸妝 / 化妝品<span class="hint">乾冷氣候加強保濕</span></span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">衛生用品 / 濕紙巾 / 面紙</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">指甲剪 / 棉花棒 / 小剪刀<span class="hint">剪刀須托運</span></span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">兒童專用備品<span class="hint">兒童牙膏、慣用安撫物、濕紙巾</span></span></span></li>
+    </ul>
+  </section>
+
+  <!-- 證件錢財 / 雜項 -->
+  <section class="cat" data-cat="misc">
+    <div class="cathead"><span class="ic">🎒</span><h2>錢財・雜項</h2><span class="count" id="c-misc"></span></div>
+    <div class="catnote">澳洲多為刷卡 / 感應支付，少量現金備用即可。</div>
+    <ul class="items">
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">信用卡<span class="qty">2 張以上</span></span><span class="hint">分散風險；確認可海外感應支付</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">澳幣現金<span class="qty">少量</span></span><span class="hint">投幣洗衣、小店、停車備用</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">輕便後背包 / 隨身包<span class="qty">每人</span></span><span class="hint">下車看景點、環島、健行用</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">折疊購物袋 / 保冷袋<span class="hint">超市採買、自煮、買生鮮回程</span></span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">雨傘 / 輕便雨衣<span class="hint">冬季偶有陣雨</span></span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">保溫瓶 / 隨行杯<span class="hint">咖啡之國，環保杯方便</span></span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">兒童玩具 / 著色本 / 零食<span class="hint">長途車程與餐廳等候安撫</span></span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">夾鏈袋 / 收納袋若干<span class="hint">分裝、防水、裝沙土衣物</span></span></span></li>
+    </ul>
+  </section>
+
+  <!-- 入境提醒 -->
+  <section class="cat" data-cat="customs">
+    <div class="cathead"><span class="ic">🛃</span><h2>入境・檢疫提醒</h2><span class="count" id="c-customs"></span></div>
+    <div class="catnote">澳洲檢疫（生物安全）極嚴，誤帶可重罰。打包與填申報卡前先確認。</div>
+    <ul class="items">
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name"><b>勿帶</b>肉類 / 蛋 / 乳製品 / 生鮮蔬果 / 種子<span class="star">★</span></span><span class="hint">含肉乾、肉鬆、新鮮水果，違者重罰</span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">如帶中藥 / 保健食品 / 泡麵<span class="hint">主動申報，部分成分受限</span></span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">藥品隨身 + 成分說明<span class="hint">大量或特殊藥物主動申報</span></span></span></li>
+      <li class="item"><span class="box"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">不確定就申報（走紅色通道）<span class="hint">申報不罰、未申報才罰</span></span></span></li>
+    </ul>
+  </section>
+
+  <!-- 衣物計算表 -->
+  <div class="calc">
+    <h3>🧮 衣物量速算（每人・含洗衣一次）</h3>
+    <p>以「住 6 晚的 Bedford 大本營洗一次衣」為前提，11 天只需帶約 5–6 天份量即可全程輪替。</p>
+    <table>
+      <tr><th>品項</th><th>建議帶</th><th>說明</th></tr>
+      <tr><td>上衣</td><td class="num">6 件</td><td>長袖為主，可疊穿</td></tr>
+      <tr><td>內衣褲</td><td class="num">6–7 套</td><td>兒童 +2 備用</td></tr>
+      <tr><td>襪子</td><td class="num">6–7 雙</td><td>含厚襪保暖</td></tr>
+      <tr><td>長褲</td><td class="num">3–4 件</td><td>耐穿好搭</td></tr>
+      <tr><td>保暖中層</td><td class="num">2–3 件</td><td>洋蔥式關鍵</td></tr>
+      <tr><td>厚外套</td><td class="num">1 件</td><td>防風防水</td></tr>
+    </table>
+    <div class="foot">💡 不洗衣的話需帶滿約 10 天份，行李會多出近一倍。中途洗一次最省力又輕便。兒童因易弄髒，各品項建議再 +2–3 件。</div>
+  </div>
+
+</main>
+
+<footer>西澳伯斯 11 日打包清單 · 勾選自動儲存於本機瀏覽器 · 一路順風，平安出遊 🧳</footer>
+
+<script>
+  const KEY='wa_packing_2026';
+  let state={};
+  try{state=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){state={}}
+
+  // assign stable ids to each item by index
+  const items=[...document.querySelectorAll('li.item')];
+  items.forEach((li,i)=>{
+    li.dataset.id='i'+i;
+    if(state['i'+i]) li.classList.add('done');
+    li.addEventListener('click',()=>{
+      li.classList.toggle('done');
+      state['i'+i]=li.classList.contains('done');
+      save(); update();
+    });
+  });
+
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
+
+  function update(){
+    const total=items.length;
+    const done=items.filter(li=>li.classList.contains('done')).length;
+    document.getElementById('ptxt').textContent=done+' / '+total+' 已打包';
+    document.getElementById('pfill').style.width=(total?done/total*100:0)+'%';
+    // per category counts
+    document.querySelectorAll('section.cat').forEach(sec=>{
+      const its=[...sec.querySelectorAll('li.item')];
+      const d=its.filter(li=>li.classList.contains('done')).length;
+      const el=sec.querySelector('.count');
+      if(el) el.textContent=d+'/'+its.length;
+    });
+  }
+
+  document.getElementById('reset').addEventListener('click',()=>{
+    if(!confirm('確定要清除所有勾選嗎？')) return;
+    state={}; save();
+    items.forEach(li=>li.classList.remove('done'));
+    update();
+  });
+
+  update();
+</script>
+</body>
+</html>

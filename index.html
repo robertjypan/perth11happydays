@@ -194,6 +194,19 @@
   .panelhead .line{width:60px;height:4px;background:var(--terra);margin-top:8px;border-radius:2px}
   .panelhead p{color:#5c4a36;margin-top:8px;font-size:.95rem}
 
+  /* PACKING LIST CTA */
+  .packcta{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--paper);
+    background:linear-gradient(135deg,var(--terra),var(--terra-deep));border-radius:16px;
+    padding:16px 20px;margin-bottom:18px;box-shadow:0 10px 26px rgba(156,67,36,.22);
+    transition:transform .18s,box-shadow .18s}
+  .packcta:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(156,67,36,.3)}
+  .packcta .pic{font-size:2rem;flex-shrink:0}
+  .packcta .ptxt{flex:1;display:flex;flex-direction:column;line-height:1.4}
+  .packcta .ptxt b{font-family:'Noto Serif TC',serif;font-size:1.12rem}
+  .packcta .ptxt small{font-size:.82rem;opacity:.92;margin-top:2px}
+  .packcta .parrow{font-size:1.5rem;flex-shrink:0;transition:transform .18s}
+  .packcta:hover .parrow{transform:translateX(4px)}
+
   footer{background:var(--ink);color:var(--sand);text-align:center;padding:30px 20px;
     font-size:.82rem;font-family:'Fraunces',serif;font-style:italic}
 
@@ -810,6 +823,11 @@
   <div class="panelhead"><h2>📋 重要旅遊須知</h2><div class="line"></div>
     <p>冬季西澳自駕的安全與行前重點整理。</p></div>
   <section class="day" style="padding-top:24px">
+  <a class="packcta" href="https://github.com/robertjypan/perth11happydays/package.html" target="_blank">
+    <span class="pic">🧳</span>
+    <span class="ptxt"><b>行李打包清單</b><small>73 項可勾選清單 · 含衣物量速算、自駕文件、入境檢疫提醒 — 點此開啟</small></span>
+    <span class="parrow">→</span>
+  </a>
   <div class="infogrid">
     <div class="card"><h4>🎫 國家公園門票</h4>
       <ul>
